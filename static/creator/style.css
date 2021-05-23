@@ -196,7 +196,7 @@ body{
 
 #widget-body *{
     outline: none;
-    transition: all 0.5s;
+    transition: box-shadow 0.5s;
 }
 
 #name-input:focus, #nick-input:focus{

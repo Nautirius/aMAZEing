@@ -4,6 +4,7 @@ const xInput = document.getElementById("grid-x-input");
 
 
 document.getElementById("grid-change-button").addEventListener("click", ()=>{createBoard(xInput.value)})
+xInput.addEventListener("input", ()=>{createBoard(xInput.value)})
 
 
 let level = {name:'amogus', author:'sus', start:false, end:false, objects:[], walls:[]}
@@ -19,7 +20,6 @@ window.addEventListener("mouseup", function(){
 
 
 function createBoard(x){
-    xInput.value = null
     level = {name:'amogus', author:'sus', start:false, end:false, objects:[], walls:[]}
 
     if(x<=1||x>=51||x==null||x==undefined||x==""){x=currentSize}
@@ -58,7 +58,7 @@ async function widgetCreate(){
         widgetBody.style.left="30%"
     }, 10)
     
-
+    
     fetch('http://localhost:3000/getLevels', {
         method: "GET",
     })
@@ -66,11 +66,9 @@ async function widgetCreate(){
             let nickInput = document.createElement("input")
             nickInput.id = "nick-input"
             nickInput.placeholder="Podaj swój nick"
-            widgetBody.appendChild(nickInput)
             let nameInput = document.createElement("input")
             nameInput.id = "name-input"
             nameInput.placeholder="Podaj nazwę poziomu"
-            widgetBody.appendChild(nameInput)
 
             let levelSelect = document.createElement('select')
             levelSelect.id = 'level-select'
@@ -81,11 +79,17 @@ async function widgetCreate(){
                 mazeOption.value = maze._id
                 levelSelect.appendChild(mazeOption)
             })
-            widgetBody.appendChild(levelSelect)
+            
             let sendLevel = document.createElement('div')
             sendLevel.id = 'send-level'
             sendLevel.innerText = 'NADPISZ LEVEL'
-            widgetBody.appendChild(sendLevel)
+            
+            window.setTimeout(function(){
+                widgetBody.appendChild(nickInput)
+                widgetBody.appendChild(nameInput)
+                widgetBody.appendChild(levelSelect)
+                widgetBody.appendChild(sendLevel)
+            }, 510)
             sendLevel.addEventListener('click', function(){
                 level.name = nameInput.value
                 level.author = nickInput.value
@@ -97,9 +101,21 @@ async function widgetCreate(){
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(level)
+                    body: JSON.stringify({level:level, id:levelSelect.value})
                 })
-                    .then(res => res.json()).then(res => {document.body.removeChild(widgetBody); document.body.removeChild(widgetCover)})
+                    .then(res => res.json()).then(res => {
+                        widgetBody.style.height= "0%";
+                        widgetBody.style.top="50%"
+                        widgetBody.style.width= "0%";
+                        widgetBody.style.left="50%"
+                        Array.from(widgetBody.children).forEach(child => {
+                            child.style.display = "none"
+                        })
+                        window.setTimeout(function(){
+                            document.body.removeChild(widgetCover)
+                            document.body.removeChild(widgetBody)
+                        }, 500)
+                    })
                     .catch(err => { console.log(err) })
             })
 
@@ -109,8 +125,17 @@ async function widgetCreate(){
 
 
     widgetCover.addEventListener("click", function(){
-        document.body.removeChild(widgetCover)
-        document.body.removeChild(widgetBody)
+        widgetBody.style.height= "0%";
+        widgetBody.style.top="50%"
+        widgetBody.style.width= "0%";
+        widgetBody.style.left="50%"
+        Array.from(widgetBody.children).forEach(child => {
+            child.style.display = "none"
+        })
+        window.setTimeout(function(){
+            document.body.removeChild(widgetCover)
+            document.body.removeChild(widgetBody)
+        }, 500)
     })
 }
 

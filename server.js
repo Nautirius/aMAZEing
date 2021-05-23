@@ -159,9 +159,9 @@ app.post('/levelSelector', (req, res) => {
 });
 
 app.post('/saveLevel', (req, res) => {
-    const level = req.body;
+    const level = req.body.level;
     const dbPromise = new Promise((resolve, reject) => {
-        database.insert(level, function (err, newDoc) {
+        database.update({_id:req.body.id}, { $set: { name: level.name, author: level.author, start: level.start, end: level.end, objects:level.objects, walls: level.walls } }, {}, function (err, newDoc) {
             console.log("document id: " + newDoc._id, "ADDED: " + new Date().getMilliseconds())
             if (err) { console.log(err) }
         });
