@@ -7,7 +7,7 @@ let retracted = true
 
 // console.log(sideMenuElements)
 
-sideMenu.addEventListener("click", function(){
+resizeButton.addEventListener("click", function(){
     if(retracted){
         sideMenu.classList.remove("retracted")
         resizeButton.innerText = "Schowaj Menu"

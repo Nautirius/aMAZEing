@@ -51,6 +51,13 @@ async function widgetCreate(){
     let widgetBody = document.createElement("div")
     widgetBody.id = "widget-body"
     document.body.appendChild(widgetBody)
+    window.setTimeout(function(){
+        widgetBody.style.height= "40%";
+        widgetBody.style.top="30%"
+        widgetBody.style.width= "40%";
+        widgetBody.style.left="30%"
+    }, 10)
+    
 
     fetch('http://localhost:3000/getLevels', {
         method: "GET",
@@ -58,27 +65,32 @@ async function widgetCreate(){
         .then(res => res.json()).then(res => {
             let nickInput = document.createElement("input")
             nickInput.id = "nick-input"
+            nickInput.placeholder="Podaj swój nick"
             widgetBody.appendChild(nickInput)
             let nameInput = document.createElement("input")
             nameInput.id = "name-input"
+            nameInput.placeholder="Podaj nazwę poziomu"
             widgetBody.appendChild(nameInput)
 
             let levelSelect = document.createElement('select')
+            levelSelect.id = 'level-select'
             console.log(res.result)
             res.result.forEach(maze => {
                 let mazeOption = document.createElement('option')
-                mazeOption.innerText = maze.name
+                mazeOption.innerText = "LEVEL: " + maze.name + '    AUTOR: ' + maze.author
                 mazeOption.value = maze._id
                 levelSelect.appendChild(mazeOption)
             })
             widgetBody.appendChild(levelSelect)
             let sendLevel = document.createElement('div')
             sendLevel.id = 'send-level'
-            sendLevel.innerText = 'wyślij'
+            sendLevel.innerText = 'NADPISZ LEVEL'
             widgetBody.appendChild(sendLevel)
             sendLevel.addEventListener('click', function(){
                 level.name = nameInput.value
                 level.author = nickInput.value
+                if(level.name === "" || level.name === undefined || level.name === null){level.name="amogus"}
+                if(level.author === "" || level.author === undefined || level.author === null){level.author="sus"}
                 widgetBody.innerText="Wysyłanie Poziomu..."
                 fetch('http://localhost:3000/saveLevel', {
                     method: "POST",

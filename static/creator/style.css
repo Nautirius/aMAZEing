@@ -146,15 +146,59 @@ body{
     background-color: black;
 }
 #widget-body{
+    border-radius: 25px;
     position: absolute;
     z-index: 6;
-    top: 30%;
-    left: 30%;
+    top: 50%;
+    left: 50%;
+    transition: height 0.5s, top 0.5s, width 0.5s, left 0.5s;
     background-color: rgb(209, 209, 209);
-    width: 40%;
-    height: 40%;
+    width:  0%;
+    height: 0%;
+    text-align: center;
+}
+#nick-input, #name-input, #level-select{
+    border: none;
+    /* border-radius: 20%; */
+    height: 10%;
+    font-size: 2vh;
+    /* margin-left: 10%; */
+    text-align: center;
+}
+#nick-input{
+    margin-top: 5vh;
+    padding: 0 10% 0 10%;
+    width: 80%;
+}
+#name-input{
+    margin-top: 5vh;
+    padding: 0 10% 0 10%;
+    width: 80%;
+}
+#level-select{
+    padding-left: 1vw;
+    margin-top: 5vh;
+    width: 100%;
+}
+#send-level{
+    height: 10%;
+    background-color: white;
+    margin-top: 5vh;
+    width: 100%;
+    font-size: 2vh;
+    border: none;
+    line-height: 200%;
+}
+#widget-body *:hover{
+    cursor: pointer;
+    box-shadow: 0 10px black;
 }
 
-/* #nick-input{
+#widget-body *{
+    outline: none;
+    transition: all 0.5s;
+}
 
-} */
+#name-input:focus, #nick-input:focus{
+    box-shadow: 0 10px black;
+}
