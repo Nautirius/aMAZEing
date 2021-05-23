@@ -67,24 +67,32 @@ async function widgetCreate(){
             console.log(res.result)
             res.result.forEach(maze => {
                 let mazeOption = document.createElement('option')
-                mazeOption.innerText = maze._id
+                mazeOption.innerText = maze.name
                 mazeOption.value = maze._id
                 levelSelect.appendChild(mazeOption)
             })
             widgetBody.appendChild(levelSelect)
+            let sendLevel = document.createElement('div')
+            sendLevel.id = 'send-level'
+            sendLevel.innerText = 'wyślij'
+            widgetBody.appendChild(sendLevel)
+            sendLevel.addEventListener('click', function(){
+                level.name = nameInput.value
+                level.author = nickInput.value
+                widgetBody.innerText="Wysyłanie Poziomu..."
+                fetch('http://localhost:3000/saveLevel', {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(level)
+                })
+                    .then(res => res.json()).then(res => {document.body.removeChild(widgetBody); document.body.removeChild(widgetCover)})
+                    .catch(err => { console.log(err) })
+            })
+
         })
         .catch(err => { console.log(err) })
-
-    // fetch('http://localhost:3000/saveLevel', {
-    //     method: "POST",
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(level)
-    // })
-    //     .then(res => res.json()).then(res => console.log(res))
-    //     .catch(err => { console.log(err) })
-
 
 
 
@@ -161,12 +169,13 @@ function selectDiv (div, click=false) {
 
 Array.from(document.getElementById("editor-buttons").children).forEach(element => {
     element.addEventListener("click", function(){
-    currentObjectType = element.id.split("-")[0].toUpperCase()
-    let prev = document.getElementById("selectedButton");
-    if (prev) {
-        prev.removeAttribute("id");
-    }
-    this.setAttribute("id", "selectedButton");
+        currentObjectType = element.id.split("-")[0].toUpperCase()
+        let prev = document.querySelector(".selected-button");
+        // console.log
+        if (prev) {
+            prev.classList.remove("selected-button");
+        }
+        element.classList.add("selected-button");
     })
 });
 

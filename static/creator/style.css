@@ -1,6 +1,6 @@
 body{
     margin: 0;
-    overflow-y: hidden;
+    overflow-x: hidden;
 }
 
 
@@ -150,7 +150,11 @@ body{
     z-index: 6;
     top: 30%;
     left: 30%;
-    background-color: green;
+    background-color: rgb(209, 209, 209);
     width: 40%;
     height: 40%;
 }
+
+/* #nick-input{
+
+} */

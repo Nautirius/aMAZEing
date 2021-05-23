@@ -183,7 +183,9 @@ app.post('/loadLevel', (req, res) => {
         });
     });
     dbPromise.then(outcome => {
-        res.end(JSON.stringify({ result: outcome }));
+        // let room = player = rooms.find(room => room.players.find(player => player.id === req.sessionID));
+        // let playerRole = room.players.find(player => player.id === req.sessionID).role
+        res.end(JSON.stringify({ levelData: outcome, playerRole: "player" }));
     });
 });
 
