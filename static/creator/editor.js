@@ -6,7 +6,7 @@ const xInput = document.getElementById("grid-x-input");
 document.getElementById("grid-change-button").addEventListener("click", ()=>{createBoard(xInput.value)})
 
 
-let level = {start:false, end:false, objects:[], walls:[]}
+let level = {name:'amogus', author:'sus', start:false, end:false, objects:[], walls:[]}
 let currentObjectType = "START";
 let currentSize = 10
 let mouseDown = false
@@ -20,7 +20,7 @@ window.addEventListener("mouseup", function(){
 
 function createBoard(x){
     xInput.value = null
-    level = {start:false, end:false, objects:[], walls:[]}
+    level = {name:'amogus', author:'sus', start:false, end:false, objects:[], walls:[]}
 
     if(x<=1||x>=51||x==null||x==undefined||x==""){x=currentSize}
     currentSize = x
@@ -44,8 +44,7 @@ function createBoard(x){
 createBoard(10)
 
 
-function widgetCreate(){
-
+async function widgetCreate(){
     let widgetCover = document.createElement('div')
     widgetCover.id = "widget-cover"
     document.body.appendChild(widgetCover)
@@ -53,14 +52,28 @@ function widgetCreate(){
     widgetBody.id = "widget-body"
     document.body.appendChild(widgetBody)
 
-    let nickInput = document.createElement("input")
-    nickInput.id = "nick-input"
-    widgetBody.appendChild(nickInput)
-    let nameInput = document.createElement("input")
-    nameInput.id = "name-input"
-    widgetBody.appendChild(nameInput)
+    fetch('http://localhost:3000/getLevels', {
+        method: "GET",
+    })
+        .then(res => res.json()).then(res => {
+            let nickInput = document.createElement("input")
+            nickInput.id = "nick-input"
+            widgetBody.appendChild(nickInput)
+            let nameInput = document.createElement("input")
+            nameInput.id = "name-input"
+            widgetBody.appendChild(nameInput)
 
-    let levelSelect = document.createElement('select')
+            let levelSelect = document.createElement('select')
+            console.log(res.result)
+            res.result.forEach(maze => {
+                let mazeOption = document.createElement('option')
+                mazeOption.innerText = maze._id
+                mazeOption.value = maze._id
+                levelSelect.appendChild(mazeOption)
+            })
+            widgetBody.appendChild(levelSelect)
+        })
+        .catch(err => { console.log(err) })
 
     // fetch('http://localhost:3000/saveLevel', {
     //     method: "POST",

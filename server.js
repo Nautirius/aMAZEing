@@ -189,7 +189,17 @@ app.post('/loadLevel', (req, res) => {
 
 
 app.get('/getLevels', (req, res) => {
-    res.end()
+    const dbPromise = new Promise((resolve, reject) => {
+        database.find({}, function (err, doc) {
+            // console.log("document id: " + doc._id, "LOADED: " + new Date().getMilliseconds())
+            if (err) { console.log(err) }
+            resolve(doc)
+            reject("error")
+        });
+    });
+    dbPromise.then(outcome => {
+        res.end(JSON.stringify({ result: outcome }));
+    });
 })
 
 
