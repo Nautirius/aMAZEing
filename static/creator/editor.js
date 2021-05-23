@@ -62,6 +62,16 @@ function widgetCreate(){
 
     let levelSelect = document.createElement('select')
 
+    // fetch('http://localhost:3000/saveLevel', {
+    //     method: "POST",
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(level)
+    // })
+    //     .then(res => res.json()).then(res => console.log(res))
+    //     .catch(err => { console.log(err) })
+
 
 
 

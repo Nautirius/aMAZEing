@@ -188,6 +188,11 @@ app.post('/loadLevel', (req, res) => {
 });
 
 
+app.get('/getLevels', (req, res) => {
+    res.end()
+})
+
+
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, function () {
     console.log("start serwera na porcie " + PORT);
