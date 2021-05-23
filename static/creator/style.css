@@ -1,39 +1,123 @@
-body {
-    display: flex;
-    justify-content: space-between;
-    font-family: monospace;
+body{
     margin: 0;
+    overflow-y: hidden;
 }
 
-#grid-container {
-    width: 80vmin;
-    border: 1px solid black;
-    background-image: url(sddefault.jpg);
+
+#side-menu{
+    position: fixed;
+    height: 100%;
+    background-color: rgb(209, 209, 209);
+    transition: width 0.5s;
+    z-index: 2;
+}
+#side-menu *{
+    position: absolute;
+    height: 4.5vw;
+    transition: none;
+}
+#side-menu *:hover{
+    background-color: grey;
+}
+#side-menu #resize-menu{
+    top: 0;
+}
+#side-menu #home{
+    top: 4.5vw;
+}
+#side-menu #player-lobby{
+    top: 9vw;
+}
+#side-menu #level-creator{
+    top: 13.5vw;
+}
+
+#side-menu.retracted{
+    width: 4vw;
+}
+#side-menu.retracted *{
+    width: 4vw;
+    background-size: contain;
     background-repeat: no-repeat;
-    background-size:cover;
+    transition: inherit;
+}
+#side-menu.retracted #resize-menu{
+    background-image: url("arrow.png");
+}
+#side-menu.retracted #home{
+    background-image: url("house.png");
+}
+#side-menu.retracted #player-lobby{
+    background-image: url("human.png");
+}
+#side-menu.retracted #level-creator{
+    background-image: url("pencil.png");
+}
+
+#side-menu:not(.retracted){
+    width: 20vw;
+    font-size: 3vw;
+}
+#side-menu:not(.retracted) *{
+    width: 20vw;
+    right: 0;
+}
+/* #side-menu:not(.retracted) #resize-menu{
+    top: 0;
+    background-image: url("arrow.png");
+}
+#side-menu:not(.retracted) #home{
+    top: 5vw;
+    background-image: url("house.png");
+}
+#side-menu:not(.retracted) #player-lobby{
+    top: 10vw;
+    background-image: url("human.png");
+}
+#side-menu:not(.retracted) #level-creator{
+    top: 15vw;
+    background-image: url("pencil.png");
+} */
+
+
+#app{
+    position: absolute;
+    left: 4vw;
+}
+
+
+#grid-container{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50vw;
+    background-image: url(sddefault.jpg);
+    background-size: contain;
 }
 
 .grid {
     position: absolute;
     border: 1px solid black;
     background-color: black;
-    transition: 1s;
+    transition: opacity 1s;
+    box-sizing: border-box;
 }
-
 .grid.untagged:hover{
     opacity: 0;
     transition: 0s;
 }
 
-#buttons-container {
+
+#buttons-container{
+    position: absolute;
+    left: 50vw;
+    top: 0;
+    width: 16vw;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    /* height: 500px; */
-    width: 250px;
 }
-
-#buttons-container div {
+#buttons-container *{
     text-align: center;
     padding: 10px;
     font-size: 20px;
@@ -42,21 +126,31 @@ body {
 
 }
 
-#selectedButton {
-    border: 2px solid black;
+#json-area{
+    border: none;
+    padding: 0;
+    position: fixed;
+    left: 70vw;
+    top: 0;
+    width: 30vw;
+    height: 100%;
 }
 
-#json-area {
-    overflow-y: auto;
-}
 
-#grid-change-button{
-    margin-top: 12px;
-    /* border: black 1px solid; */
-    box-sizing: border-box;
+#widget-cover{
+    position: absolute;
+    z-index: 5;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    background-color: black;
 }
-
-.button:hover{
-    border: 20px black solid;
-    transition: 2s;
+#widget-body{
+    position: absolute;
+    z-index: 6;
+    top: 30%;
+    left: 30%;
+    background-color: green;
+    width: 40%;
+    height: 40%;
 }
