@@ -1,0 +1,27 @@
+body{
+    font-family: monospace;
+}
+
+h1{
+    text-align: center;
+    font-size:40px;
+    font-weight: bolder;
+}
+
+#button-cont{
+display:flex;
+justify-content:space-evenly;
+}
+#button-cont div{
+    color:white;
+    font-weight: bolder;
+    padding:10px;
+    background:black;
+    font-size: 30px;
+}
+.chosen{
+    background: blue;
+}
+.taken{
+    background:gray;
+}

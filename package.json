@@ -1,0 +1,21 @@
+{
+  "name": "projektds",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "nedb": "^1.8.0",
+    "uuid": "^8.3.2",
+    "ws": "^7.4.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Jakub Łakomy 3Ib1, Marcin Knapczyk 3Ib1",
+  "license": "ISC"
+}

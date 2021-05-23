@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Express and Webpack App</title>
+    <link rel="shortcut icon" href="#">
+    <script defer="defer" src="/main.js?cdccd07c00870627e5d8"></script>
+    <link href="/main.css?cdccd07c00870627e5d8" rel="stylesheet">
+</head>
+
+<body>
+    <h1>Expack</h1>
+    <p class="description">Express and Webpack Boilerplate App</p>
+    <div class="awful-selfie"></div><button onclick="sendMessage()">Send Msg</button>
+</body>
+<script>const socket = new WebSocket("wss://projekt-ds.herokuapp.com/"); socket.addEventListener("open", (function (e) { console.log("Connected to WS Server") })), socket.addEventListener("message", (function (e) { console.log("Message from server ", e.data) })); const sendMessage = () => { socket.send("Hello form Client!") }</script>
+
+</html>

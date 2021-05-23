@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kreator</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="editor.js"></script>
+</head>
+
+<body>
+    <div id="grid-container"></div>
+    <div id="buttons-container">
+        <div id="grid-size-buttons">
+            <input type="number" id="grid-x-input" min="2" max="50"> X
+            <input type="number" id="grid-y-input" min="2" max="50">
+            <div id="grid-change-button" class="button">Change grid</div>
+        </div>
+        <div id="save-button" class="button" style="background-color: black;color:white;">zapisz level na serwerze</div>
+        <div id="save-test-button" class="button" style="background-color: black;color:white;">zapisz test level na
+            serwerze</div>
+        <div id="load-button" class="button" style="background-color: black;color:white;">wczytaj level z serwera</div>
+        <div id="editor-buttons">
+            <div id="start-button" class="button" style="background-color: green;">START</div>
+            <div id="meta-button" class="button" style="background-color: red;">META</div>
+            <div id="path-button" class="button" style="background-color: blue;">PATH</div>
+            <div id="treasure-button" class="button" style="background-color: gold;">TREASURE</div>
+            <div id="delete-button" class="button" style="background-color: gray;">delete</div>
+        </div>
+    </div>
+    <textarea name="" id="json-area" cols="50" rows="10"></textarea>
+</body>
+
+</html>
