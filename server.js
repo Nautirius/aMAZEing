@@ -90,6 +90,18 @@ wss.on('connection', function connection(ws) {
                         }
                     });
                     break;
+                case "set move":
+                    wss.clients.forEach(function each(client) {
+                        if (client.readyState === WebSocket.OPEN && room.websockets.includes(client.id) && client !== ws) {
+                            client.send(message);
+                        }
+                    });
+                case "del move":
+                    wss.clients.forEach(function each(client) {
+                        if (client.readyState === WebSocket.OPEN && room.websockets.includes(client.id) && client !== ws) {
+                            client.send(message);
+                        }
+                    });
                 default:
                     break;
             }
