@@ -26,7 +26,7 @@ app.use(session({
     saveUninitialized: true
 }));
 
-// app.use(express.static("./dist"));
+app.use(express.static("./dist"));
 app.use(express.static("./static/home"));
 app.use(express.static("./static/creator"));
 app.use(express.static("./static/lobby"));
@@ -108,7 +108,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'static/home/home.html'))
 });
 app.get('/game', (req, res) => {
-    res.sendFile(path.join(__dirname, 'static/creator/editor.html'))
+    res.sendFile(path.join(__dirname, 'dist/game.html'))
 });
 app.get('/creator', (req, res) => {
     res.sendFile(path.join(__dirname, 'static/creator/editor.html'))
@@ -126,7 +126,7 @@ app.get('/levelSelector', (req, res) => {
 app.post('/selectLevel', (req, res) => {
     let id = req.body.levelId
     let room = rooms.find(room => room.players.find(player => player.id === req.sessionID))
-    if(room){
+    if (room) {
         room.levelId = id
         wss.clients.forEach(function each(client) {
             if (client.readyState === WebSocket.OPEN && room.websockets.includes(client.id)) {
@@ -179,7 +179,7 @@ app.post('/levelSelector', (req, res) => {
 app.post('/saveLevel', (req, res) => {
     const level = req.body.level;
     const dbPromise = new Promise((resolve, reject) => {
-        database.update({_id:req.body.id}, { $set: { name: level.name, author: level.author, size: level.size, start: level.start, end: level.end, objects:level.objects, walls: level.walls } }, {}, function (err, newDoc) {
+        database.update({ _id: req.body.id }, { $set: { name: level.name, author: level.author, size: level.size, start: level.start, end: level.end, objects: level.objects, walls: level.walls } }, {}, function (err, newDoc) {
             console.log("document id: " + newDoc._id, "ADDED: " + new Date().getMilliseconds())
             if (err) { console.log(err) }
         });
@@ -191,20 +191,26 @@ app.post('/saveLevel', (req, res) => {
     });
 });
 app.post('/loadLevel', (req, res) => {
-    const levelId = req.body.levelId;
-    const dbPromise = new Promise((resolve, reject) => {
-        database.findOne({ _id: levelId }, function (err, doc) {
-            console.log("document id: " + doc._id, "LOADED: " + new Date().getMilliseconds())
-            if (err) { console.log(err) }
-            resolve(doc)
-            reject("error")
+    let room = rooms.find(room => room.players.find(player => player.id === req.sessionID));
+    if (room) {
+        const levelId = room.levelId;
+        const dbPromise = new Promise((resolve, reject) => {
+            database.findOne({ _id: levelId }, function (err, doc) {
+                console.log("document id: " + doc._id, "LOADED: " + new Date().getMilliseconds())
+                if (err) { console.log(err) }
+                resolve(doc)
+                reject("error")
+            });
         });
-    });
-    dbPromise.then(outcome => {
-        // let room = player = rooms.find(room => room.players.find(player => player.id === req.sessionID));
-        // let playerRole = room.players.find(player => player.id === req.sessionID).role
-        res.end(JSON.stringify({ levelData: outcome, playerRole: "spectator", playerId: req.sessionID }));
-    });
+        dbPromise.then(outcome => {
+            // let player = rooms.find(room => room.players.find(player => player.id === req.sessionID));
+            let playerRole = room.players.find(player => player.id === req.sessionID).role
+            res.end(JSON.stringify({ levelData: outcome, playerRole: playerRole, playerId: req.sessionID }));
+        });
+    } else {
+        res.end("ni mo");
+    }
+
 });
 
 
