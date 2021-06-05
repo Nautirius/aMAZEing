@@ -5,6 +5,27 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer>
+
+        const socket = new WebSocket('ws://localhost:3000');
+        socket.addEventListener('open', function (event) {
+            console.log('Connected to WS Server');
+            fetch('http://localhost:3000/getLevels', {
+                method: "GET",
+            })
+            .then(res => res.json()).then(res => {
+                socket.send(JSON.stringify({ action: "set id", playerId: res.id }))
+            })
+        });
+        socket.addEventListener('message', function (event) {
+            console.log('Message from server ', event.data);
+            if(event.data === "Ładuj Poziom"){
+                document.location.href = 'http://localhost:3000/game'
+            }
+        })
+        
+
+    </script>
     <title>Document</title>
 </head>
 

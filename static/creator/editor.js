@@ -7,7 +7,7 @@ document.getElementById("grid-change-button").addEventListener("click", ()=>{cre
 xInput.addEventListener("input", ()=>{createBoard(xInput.value)})
 
 
-let level = {name:'amogus', author:'sus', start:false, end:false, objects:[], walls:[]}
+let level = {name:'amogus', author:'sus', size:10, start:false, end:false, objects:[], walls:[]}
 let currentObjectType = "START";
 let currentSize = 10
 let mouseDown = false
@@ -20,10 +20,11 @@ window.addEventListener("mouseup", function(){
 
 
 function createBoard(x){
-    level = {name:'amogus', author:'sus', start:false, end:false, objects:[], walls:[]}
+    level = {name:'amogus', author:'sus', size:10, start:false, end:false, objects:[], walls:[]}
 
     if(x<=1||x>=51||x==null||x==undefined||x==""){x=currentSize}
     currentSize = x
+    level.size = x
     gridContainer.innerHTML=""
     gridContainer.style.height= 50 + "vw"
     for (let i = 0; i < x; i++) {
@@ -104,6 +105,7 @@ async function widgetCreate(){
                     body: JSON.stringify({level:level, id:levelSelect.value})
                 })
                     .then(res => res.json()).then(res => {
+                        widgetBody.innerText=""
                         widgetBody.style.height= "0%";
                         widgetBody.style.top="50%"
                         widgetBody.style.width= "0%";

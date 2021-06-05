@@ -2,9 +2,9 @@ const path = require('path');
 const express = require('express');
 const Datastore = require('nedb');
 const WebSocket = require('ws');
-const cors = require('cors')
+const cors = require('cors');
 const session = require('express-session');
-const uuid = require('uuid').v4
+const uuid = require('uuid').v4;
 
 const database = new Datastore({
     filename: 'databases/levels.db',
@@ -35,7 +35,7 @@ const server = require('http').createServer(app);
 const wss = new WebSocket.Server({ server: server });
 
 const rooms = [];
-let wsId = 0;
+// let wsId = 0;
 
 wss.on('connection', function connection(ws) {
     console.log('A new client Connected!');
@@ -52,7 +52,7 @@ wss.on('connection', function connection(ws) {
             console.log(jsMsg);
 
             let room = rooms.find(room => room.players.find(player => player.id === jsMsg.playerId));
-            room.websockets.push(ws);
+            // room.websockets.push(ws);
             console.log(room);
             switch (jsMsg.action) {
                 case "set id":
@@ -122,6 +122,23 @@ app.get('/waitingRoom', (req, res) => {
 app.get('/levelSelector', (req, res) => {
     res.sendFile(path.join(__dirname, 'static/lobby/levelSelector.html'))
 });
+
+app.post('/selectLevel', (req, res) => {
+    let id = req.body.levelId
+    let room = rooms.find(room => room.players.find(player => player.id === req.sessionID))
+    if(room){
+        room.levelId = id
+        wss.clients.forEach(function each(client) {
+            if (client.readyState === WebSocket.OPEN && room.websockets.includes(client.id)) {
+                console.log(room)
+                client.send("Ładuj Poziom");
+            }
+        });
+        console.log(id)
+    }
+    res.end()
+});
+
 app.post('/joinLobby', function (req, res) {
     let room = rooms.find(room => room.players.find(player => player.id === req.sessionID));
     if (room) { //gracz już jest w roomie
@@ -139,7 +156,8 @@ app.post('/joinLobby', function (req, res) {
                 players: [
                     { id: req.sessionID, role: "" }
                 ],
-                websockets: [req.sessionID]
+                websockets: [req.sessionID],
+                levelId: "none",
             }
             rooms.push(room);
             res.end(JSON.stringify({ room: room, playerId: req.sessionID }))
@@ -161,7 +179,7 @@ app.post('/levelSelector', (req, res) => {
 app.post('/saveLevel', (req, res) => {
     const level = req.body.level;
     const dbPromise = new Promise((resolve, reject) => {
-        database.update({_id:req.body.id}, { $set: { name: level.name, author: level.author, start: level.start, end: level.end, objects:level.objects, walls: level.walls } }, {}, function (err, newDoc) {
+        database.update({_id:req.body.id}, { $set: { name: level.name, author: level.author, size: level.size, start: level.start, end: level.end, objects:level.objects, walls: level.walls } }, {}, function (err, newDoc) {
             console.log("document id: " + newDoc._id, "ADDED: " + new Date().getMilliseconds())
             if (err) { console.log(err) }
         });
@@ -185,7 +203,7 @@ app.post('/loadLevel', (req, res) => {
     dbPromise.then(outcome => {
         // let room = player = rooms.find(room => room.players.find(player => player.id === req.sessionID));
         // let playerRole = room.players.find(player => player.id === req.sessionID).role
-        res.end(JSON.stringify({ levelData: outcome, playerRole: "player" }));
+        res.end(JSON.stringify({ levelData: outcome, playerRole: "spectator", playerId: req.sessionID }));
     });
 });
 
@@ -200,7 +218,7 @@ app.get('/getLevels', (req, res) => {
         });
     });
     dbPromise.then(outcome => {
-        res.end(JSON.stringify({ result: outcome }));
+        res.end(JSON.stringify({ result: outcome, id: req.sessionID }));
     });
 })
 
