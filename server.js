@@ -145,7 +145,6 @@ app.get('/waitingRoom', (req, res) => {
 app.get('/levelSelector', (req, res) => {
     res.sendFile(path.join(__dirname, 'static/lobby/levelSelector.html'))
 });
-
 app.post('/selectLevel', (req, res) => {
     let id = req.body.levelId
     let room = rooms.find(room => room.players.find(player => player.id === req.sessionID))
@@ -161,7 +160,6 @@ app.post('/selectLevel', (req, res) => {
     }
     res.end()
 });
-
 app.post('/joinLobby', function (req, res) {
     let room = rooms.find(room => room.players.find(player => player.id === req.sessionID));
     if (room) { //gracz już jest w roomie
@@ -198,7 +196,6 @@ app.post('/levelSelector', (req, res) => {
         res.redirect("/levelSelector")
     }
 });
-
 app.post('/saveLevel', (req, res) => {
     const level = req.body.level;
     const dbPromise = new Promise((resolve, reject) => {
@@ -235,8 +232,6 @@ app.post('/loadLevel', (req, res) => {
     }
 
 });
-
-
 app.get('/getLevels', (req, res) => {
     const dbPromise = new Promise((resolve, reject) => {
         database.find({}, function (err, doc) {
