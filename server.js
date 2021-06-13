@@ -49,11 +49,11 @@ wss.on('connection', function connection(ws) {
         console.log('received: %s', message);
         if (JSON.parse(message).action) {
             let jsMsg = JSON.parse(message);
-            console.log(jsMsg);
+            // console.log(jsMsg);
 
             let room = rooms.find(room => room.players.find(player => player.id === jsMsg.playerId));
             // room.websockets.push(ws);
-            console.log(room);
+            // console.log(room);
             switch (jsMsg.action) {
                 case "set id":
                     ws.id = jsMsg.playerId;
@@ -103,6 +103,11 @@ wss.on('connection', function connection(ws) {
                         }
                     });
                 default:
+                    wss.clients.forEach(function each(client) {
+                        if (client !== ws && client.readyState === WebSocket.OPEN) {
+                            client.send(message);
+                        }
+                    });
                     break;
             }
         } else {
