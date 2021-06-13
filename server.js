@@ -102,7 +102,18 @@ wss.on('connection', function connection(ws) {
                             client.send(message);
                         }
                     });
+                case "update position":
+                    wss.clients.forEach(function each(client) {
+                        if (client.readyState === WebSocket.OPEN && room.websockets.includes(client.id) && client !== ws) {
+                            client.send(message);
+                        }
+                    });
                 default:
+                    wss.clients.forEach(function each(client) {
+                        if (client.readyState === WebSocket.OPEN && room.websockets.includes(client.id) && client !== ws) {
+                            client.send(message);
+                        }
+                    });
                     break;
             }
         } else {
