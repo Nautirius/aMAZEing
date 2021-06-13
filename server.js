@@ -110,11 +110,7 @@ wss.on('connection', function connection(ws) {
                     });
                 default:
                     wss.clients.forEach(function each(client) {
-<<<<<<< HEAD
-                        if (client !== ws && client.readyState === WebSocket.OPEN) {
-=======
                         if (client.readyState === WebSocket.OPEN && room.websockets.includes(client.id) && client !== ws) {
->>>>>>> 1c43eafdae3cebfd71a56fdf39875628c19b757e
                             client.send(message);
                         }
                     });
