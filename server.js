@@ -30,6 +30,7 @@ app.use(express.static("./dist"));
 app.use(express.static("./static/home"));
 app.use(express.static("./static/creator"));
 app.use(express.static("./static/lobby"));
+app.use(express.static("./static/end"));
 
 const server = require('http').createServer(app);
 const wss = new WebSocket.Server({ server: server });
@@ -108,6 +109,13 @@ wss.on('connection', function connection(ws) {
                             client.send(message);
                         }
                     });
+                case "end":
+                    wss.clients.forEach(function each(client) {
+                        if (client.readyState === WebSocket.OPEN && room.websockets.includes(client.id)) {
+                            // room.time = Date.now() - room.timeStart
+                            client.send(message);
+                        }
+                    });
                 default:
                     wss.clients.forEach(function each(client) {
                         if (client.readyState === WebSocket.OPEN && room.websockets.includes(client.id) && client !== ws) {
@@ -149,6 +157,7 @@ app.post('/selectLevel', (req, res) => {
     let id = req.body.levelId
     let room = rooms.find(room => room.players.find(player => player.id === req.sessionID))
     if (room) {
+        room.timeStart = Date.now()
         room.levelId = id
         wss.clients.forEach(function each(client) {
             if (client.readyState === WebSocket.OPEN && room.websockets.includes(client.id)) {
@@ -245,6 +254,9 @@ app.get('/getLevels', (req, res) => {
         res.end(JSON.stringify({ result: outcome, id: req.sessionID }));
     });
 })
+app.get('/endPrint', (req, res) => {
+    res.sendFile(path.join(__dirname, 'static/end/static.html'))
+});
 
 
 const PORT = process.env.PORT || 3000;
