@@ -16,13 +16,14 @@
             .then(res => res.json()).then(res => {
                 socket.send(JSON.stringify({ action: "set id", playerId: res.id }))
             })
+            socket.addEventListener('message', function (event) {
+                console.log('Message from server ', event.data);
+                if(event.data === "Ładuj Poziom"){
+                    document.location.href = 'http://localhost:3000/game'
+                }
+            })
         });
-        socket.addEventListener('message', function (event) {
-            console.log('Message from server ', event.data);
-            if(event.data === "Ładuj Poziom"){
-                document.location.href = 'http://localhost:3000/game'
-            }
-        })
+        
         
 
     </script>
