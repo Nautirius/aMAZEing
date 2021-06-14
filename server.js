@@ -34,7 +34,6 @@ app.use(express.static("./static/end"));
 
 const server = require('http').createServer(app);
 const wss = new WebSocket.Server({ server: server });
-
 const rooms = [];
 // let wsId = 0;
 
