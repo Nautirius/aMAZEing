@@ -7,12 +7,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Be eMAZEd!</title>
     <link rel="stylesheet" href="home.css">
+    <script defer src="../sidemenu/sideMenu.js"></script>
+    <link rel="stylesheet" href="../sidemenu/sideMenu.css">
     <script defer src="home.js"></script>
 </head>
 
 <body>
-    <a href="lobby">dołącz do lobby</a>
-    <a href="creator">kreator</a>
+    <div id="side-menu" class="retracted">
+        <div id="resize-menu"></div>
+        <div id="home"></div>
+        <div id="player-lobby"></div>
+        <div id="level-creator"></div>
+    </div>
+    <div id="app">
+        <a href="lobby">dołącz do lobby</a>
+        <a href="creator">kreator</a>
+    </div>
+    
 </body>
 
 </html>

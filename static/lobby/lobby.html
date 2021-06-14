@@ -7,14 +7,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lobby</title>
     <link rel="stylesheet" href="lobby.css">
+    <script defer src="../sidemenu/sideMenu.js"></script>
+    <link rel="stylesheet" href="../sidemenu/sideMenu.css">
     <script defer src="lobby.js"></script>
 </head>
 
 <body>
-    <h1>Wybierz tryb gry</h1>
-    <div id="button-cont">
-        <div id="player">enMAZE yourself</div>
-        <div id="spectator">aMAZE your friend</div>
+    <div id="side-menu" class="retracted">
+        <div id="resize-menu"></div>
+        <div id="home"></div>
+        <div id="player-lobby"></div>
+        <div id="level-creator"></div>
+    </div>
+    <div id="app">
+        <h1>Wybierz tryb gry</h1>
+        <div id="button-cont">
+            <div id="player">enMAZE yourself</div>
+            <div id="spectator">aMAZE your friend</div>
+        </div>
     </div>
 </body>
 

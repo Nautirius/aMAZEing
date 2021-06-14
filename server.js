@@ -27,10 +27,12 @@ app.use(session({
 }));
 
 app.use(express.static("./dist"));
+app.use(express.static("./static"));
 app.use(express.static("./static/home"));
 app.use(express.static("./static/creator"));
 app.use(express.static("./static/lobby"));
 app.use(express.static("./static/end"));
+app.use(express.static("./static/sidemenu"));
 
 const server = require('http').createServer(app);
 const wss = new WebSocket.Server({ server: server });

@@ -1,67 +1,4 @@
-body{
-    margin: 0;
-    overflow-x: hidden;
-}
 
-
-#side-menu{
-    position: fixed;
-    height: 100%;
-    background-color: rgb(209, 209, 209);
-    transition: width 0.5s;
-    z-index: 2;
-}
-#side-menu *{
-    position: absolute;
-    height: 4.5vw;
-    transition: none;
-}
-#side-menu *:hover{
-    background-color: grey;
-}
-#side-menu #resize-menu{
-    top: 0;
-}
-#side-menu #home{
-    top: 4.5vw;
-}
-#side-menu #player-lobby{
-    top: 9vw;
-}
-#side-menu #level-creator{
-    top: 13.5vw;
-}
-
-#side-menu.retracted{
-    width: 4vw;
-}
-#side-menu.retracted *{
-    width: 4vw;
-    background-size: contain;
-    background-repeat: no-repeat;
-    transition: inherit;
-}
-#side-menu.retracted #resize-menu{
-    background-image: url("arrow.png");
-}
-#side-menu.retracted #home{
-    background-image: url("house.png");
-}
-#side-menu.retracted #player-lobby{
-    background-image: url("human.png");
-}
-#side-menu.retracted #level-creator{
-    background-image: url("pencil.png");
-}
-
-#side-menu:not(.retracted){
-    width: 20vw;
-    font-size: 3vw;
-}
-#side-menu:not(.retracted) *{
-    width: 20vw;
-    right: 0;
-}
 /* #side-menu:not(.retracted) #resize-menu{
     top: 0;
     background-image: url("arrow.png");
@@ -79,11 +16,6 @@ body{
     background-image: url("pencil.png");
 } */
 
-
-#app{
-    position: absolute;
-    left: 4vw;
-}
 
 
 #grid-container{
