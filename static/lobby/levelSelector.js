@@ -63,13 +63,15 @@ socket.addEventListener('open', function (event) {
             sendLevel.innerText = 'NADPISZ LEVEL'
         })
         .catch(err => { console.log(err) })
+
+    socket.addEventListener('message', function (event) {
+        if(event.data === "Ładuj Poziom"){
+            document.location.href = 'http://localhost:3000/game'
+        }
+        console.log('Message from server ', event.data);
+    })
 });
-socket.addEventListener('message', function (event) {
-    if(event.data === "Ładuj Poziom"){
-        document.location.href = 'http://localhost:3000/game'
-    }
-    console.log('Message from server ', event.data);
-})
+
 
 
 
