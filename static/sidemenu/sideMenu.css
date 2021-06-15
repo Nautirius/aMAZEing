@@ -6,12 +6,17 @@ body{
 #app{
     position: absolute;
     left: 4vw;
+    width: 96vw;
+    background-image: url('./bg-wool-light.png');
+    height: auto;
+    font-family: Arial;
 }
 
 #side-menu{
+    font-family: Arial;
     position: fixed;
     height: 100%;
-    background-color: rgb(209, 209, 209);
+    background: url('./light_blue_wool.png');
     transition: width 0.5s;
     z-index: 2;
 }
@@ -19,10 +24,13 @@ body{
     position: absolute;
     height: 4.5vw;
     transition: none;
+    /* opacity: 0.5; */
 }
 #side-menu *:hover{
-    background-color: grey;
+    background-color: white;
+    filter: invert(100%);
 }
+
 #side-menu #resize-menu{
     top: 0;
 }
@@ -60,7 +68,7 @@ body{
 
 #side-menu:not(.retracted){
     width: 20vw;
-    font-size: 3vw;
+    font-size: 2vw;
 }
 #side-menu:not(.retracted) *{
     width: 20vw;

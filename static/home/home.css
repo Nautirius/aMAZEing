@@ -1,3 +1,25 @@
-a{
-    color:gray;
+#app{
+    background: url('./bg-wool-light.png');
+    height: auto;
+    font-family: Arial;
+}
+
+h1{
+    color:black;
+}
+
+.info-box{
+    display: flex;
+    flex-direction: column;
+}
+
+.info-tile{
+    margin: 10px 10px 10px 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+img{
+    height: 400px;
+    width: 700px;
 }
