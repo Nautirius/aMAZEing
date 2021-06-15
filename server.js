@@ -157,10 +157,12 @@ app.get('/levelSelector', (req, res) => {
 });
 app.post('/selectLevel', (req, res) => {
     let id = req.body.levelId
+    let theme = req.body.theme
     let room = rooms.find(room => room.players.find(player => player.id === req.sessionID))
     if (room) {
         room.timeStart = Date.now()
         room.levelId = id
+        room.theme = theme
         wss.clients.forEach(function each(client) {
             if (client.readyState === WebSocket.OPEN && room.websockets.includes(client.id)) {
                 console.log(room)
@@ -222,8 +224,10 @@ app.post('/saveLevel', (req, res) => {
     });
 });
 app.post('/loadLevel', (req, res) => {
+    
     let room = rooms.find(room => room.players.find(player => player.id === req.sessionID));
     if (room) {
+        console.log(room.theme)
         const levelId = room.levelId;
         const dbPromise = new Promise((resolve, reject) => {
             database.findOne({ _id: levelId }, function (err, doc) {
@@ -235,10 +239,8 @@ app.post('/loadLevel', (req, res) => {
         });
         dbPromise.then(outcome => {
             // let player = rooms.find(room => room.players.find(player => player.id === req.sessionID));
-            let theme = Math.floor(Math.random() * (levelThemes.length - 0)) + 0;
-            console.log(levelThemes[theme])
             let playerRole = room.players.find(player => player.id === req.sessionID).role
-            res.end(JSON.stringify({ levelData: outcome, theme: levelThemes[theme], playerRole: playerRole, playerId: req.sessionID }));
+            res.end(JSON.stringify({ levelData: outcome, theme: room.theme, playerRole: playerRole, playerId: req.sessionID }));
         });
     } else {
         res.end("ni mo");

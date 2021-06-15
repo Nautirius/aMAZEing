@@ -36,11 +36,11 @@ socket.addEventListener('open', function (event) {
                         else if (object.type == "META") {
                             ctx.fillStyle = 'rgb(255, 0, 0)';
                         }
-                        ctx.fillRect(object.x * gridSize, object.z * gridSize, gridSize, gridSize);
+                        ctx.fillRect(object.z * gridSize, object.x * gridSize, gridSize, gridSize);
                     });
                     ctx.fillStyle = 'rgb(0, 0, 0)';
                     maze.walls.forEach(wall => {
-                        ctx.fillRect(wall.x * gridSize, wall.z * gridSize, gridSize, gridSize);
+                        ctx.fillRect(wall.z * gridSize, wall.x * gridSize, gridSize, gridSize);
                     });
                 }
                 mazeOption.value = maze._id
@@ -48,7 +48,11 @@ socket.addEventListener('open', function (event) {
                 mazeOption.addEventListener("click", function () {
                     const http = new XMLHttpRequest();
                     var url = 'http://localhost:3000/selectLevel';
-                    var params = `levelId=${maze._id}`
+                    let theme = document.getElementById("theme-select").value
+                    if(document.getElementById("aether").checked){
+                        theme = "aether"
+                    }
+                    var params = `levelId=${maze._id}&theme=${theme}`
                     http.open('POST', url, true);
                     http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
                     http.send(params);
