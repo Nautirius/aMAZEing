@@ -37,6 +37,7 @@ app.use(express.static("./static/sidemenu"));
 const server = require('http').createServer(app);
 const wss = new WebSocket.Server({ server: server });
 const rooms = [];
+const levelThemes = ["library", "cave", "redstone", "nether", "end", "aether"];
 // let wsId = 0;
 
 wss.on('connection', function connection(ws) {
@@ -234,8 +235,10 @@ app.post('/loadLevel', (req, res) => {
         });
         dbPromise.then(outcome => {
             // let player = rooms.find(room => room.players.find(player => player.id === req.sessionID));
+            let theme = Math.floor(Math.random() * (levelThemes.length - 0)) + 0;
+            console.log(levelThemes[theme])
             let playerRole = room.players.find(player => player.id === req.sessionID).role
-            res.end(JSON.stringify({ levelData: outcome, playerRole: playerRole, playerId: req.sessionID }));
+            res.end(JSON.stringify({ levelData: outcome, theme: levelThemes[theme], playerRole: playerRole, playerId: req.sessionID }));
         });
     } else {
         res.end("ni mo");
