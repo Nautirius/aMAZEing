@@ -112,6 +112,7 @@ wss.on('connection', function connection(ws) {
                         }
                     });
                 case "end":
+                    room.time = Date.now() - room.timeStart
                     wss.clients.forEach(function each(client) {
                         if (client.readyState === WebSocket.OPEN && room.websockets.includes(client.id)) {
                             // room.time = Date.now() - room.timeStart
@@ -262,6 +263,26 @@ app.get('/getLevels', (req, res) => {
 })
 app.get('/endPrint', (req, res) => {
     res.sendFile(path.join(__dirname, 'static/end/static.html'))
+});
+app.get('/endPrintData', (req, res) => {
+    let room = rooms.find(room => room.players.find(player => player.id === req.sessionID));
+    if (room) {
+        let player = room.players.find(player => player.id === req.sessionID);
+        console.log(room.theme)
+        if(player.role == "player"){
+            room.playerfinished = true
+        }
+        else if(player.role == "spectator"){
+            room.spectatorfinished = true
+        }
+        if(room.playerfinished && room.spectatorfinished){
+            rooms.splice(rooms.findIndex(el => el == room), 1)
+        }
+        res.end(JSON.stringify({ room: room }))
+
+    } else {
+        res.end(JSON.stringify({ room: "ni mo" }));
+    }
 });
 
 
