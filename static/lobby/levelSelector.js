@@ -23,29 +23,29 @@ socket.addEventListener('open', function (event) {
                 if (canvas.getContext) {
                     var ctx = canvas.getContext('2d');
 
-                    let gridSize = 200/maze.size
+                    let gridSize = 200 / maze.size
                     console.log(maze.objects)
 
                     maze.objects.forEach(object => {
-                        if(object.type == "PATH"){
+                        if (object.type == "PATH") {
                             ctx.fillStyle = 'rgb(200, 200, 200)';
                         }
-                        else if(object.type == "START"){
+                        else if (object.type == "START") {
                             ctx.fillStyle = 'rgb(0, 255, 0)';
                         }
-                        else if(object.type == "META"){
+                        else if (object.type == "META") {
                             ctx.fillStyle = 'rgb(255, 0, 0)';
                         }
-                        ctx.fillRect(object.x*gridSize, object.z*gridSize, gridSize, gridSize);
+                        ctx.fillRect(object.x * gridSize, object.z * gridSize, gridSize, gridSize);
                     });
                     ctx.fillStyle = 'rgb(0, 0, 0)';
                     maze.walls.forEach(wall => {
-                        ctx.fillRect(wall.x*gridSize, wall.z*gridSize, gridSize, gridSize);
+                        ctx.fillRect(wall.x * gridSize, wall.z * gridSize, gridSize, gridSize);
                     });
                 }
                 mazeOption.value = maze._id
 
-                mazeOption.addEventListener("click", function(){
+                mazeOption.addEventListener("click", function () {
                     const http = new XMLHttpRequest();
                     var url = 'http://localhost:3000/selectLevel';
                     var params = `levelId=${maze._id}`
@@ -57,7 +57,7 @@ socket.addEventListener('open', function (event) {
 
                 levelSelect.appendChild(mazeOption)
             })
-            
+
             let sendLevel = document.createElement('div')
             sendLevel.id = 'send-level'
             sendLevel.innerText = 'NADPISZ LEVEL'
@@ -65,7 +65,7 @@ socket.addEventListener('open', function (event) {
         .catch(err => { console.log(err) })
 
     socket.addEventListener('message', function (event) {
-        if(event.data === "Ładuj Poziom"){
+        if (event.data === "Ładuj Poziom") {
             document.location.href = 'http://localhost:3000/game'
         }
         console.log('Message from server ', event.data);
