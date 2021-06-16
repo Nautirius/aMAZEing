@@ -112,8 +112,9 @@ wss.on('connection', function connection(ws) {
                         }
                     });
                 case "end":
-                    room.time = Date.now() - room.timeStart
+                    console.log(jsMsg)
                     room.win = jsMsg.win
+                    room.time = Date.now() - room.timeStart
                     wss.clients.forEach(function each(client) {
                         if (client.readyState === WebSocket.OPEN && room.websockets.includes(client.id)) {
                             // room.time = Date.now() - room.timeStart
@@ -194,6 +195,7 @@ app.post('/joinLobby', function (req, res) {
                 ],
                 websockets: [req.sessionID],
                 levelId: "none",
+                win: undefined
             }
             rooms.push(room);
             res.end(JSON.stringify({ room: room, playerId: req.sessionID }))
@@ -269,7 +271,6 @@ app.get('/endPrintData', (req, res) => {
     let room = rooms.find(room => room.players.find(player => player.id === req.sessionID));
     if (room) {
         let player = room.players.find(player => player.id === req.sessionID);
-        console.log(room.theme)
         if(player.role == "player"){
             room.playerfinished = true
         }

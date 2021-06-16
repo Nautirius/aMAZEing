@@ -1,4 +1,4 @@
-fetch('http://localhost:3000/endPrintData', {
+window.setTimeout(()=>{fetch('http://localhost:3000/endPrintData', {
         method: "GET",
     })
         .then(res => res.json()).then(res => {
@@ -16,4 +16,4 @@ fetch('http://localhost:3000/endPrintData', {
                 }
             }
         })
-        .catch(err => { console.log(err) })
+        .catch(err => { console.log(err) })}, 100)
