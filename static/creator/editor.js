@@ -3,41 +3,41 @@ const gridContainer = document.getElementById("grid-container");
 const xInput = document.getElementById("grid-x-input");
 
 
-document.getElementById("grid-change-button").addEventListener("click", ()=>{createBoard(xInput.value)})
-xInput.addEventListener("input", ()=>{createBoard(xInput.value)})
+document.getElementById("grid-change-button").addEventListener("click", () => { createBoard(xInput.value) })
+xInput.addEventListener("input", () => { createBoard(xInput.value) })
 
 
-let level = {name:'amogus', author:'sus', size:10, start:false, end:false, objects:[], walls:[]}
+let level = { name: 'amogus', author: 'sus', size: 10, start: false, end: false, objects: [], walls: [] }
 let currentObjectType = "START";
 let currentSize = 10
 let mouseDown = false
-gridContainer.addEventListener("mousedown", function(){
+gridContainer.addEventListener("mousedown", function () {
     mouseDown = true
 })
-window.addEventListener("mouseup", function(){
+window.addEventListener("mouseup", function () {
     mouseDown = false
 })
 
 
-function createBoard(x){
-    level = {name:'amogus', author:'sus', size:10, start:false, end:false, objects:[], walls:[]}
+function createBoard(x) {
+    level = { name: 'amogus', author: 'sus', size: 10, start: false, end: false, objects: [], walls: [] }
 
-    if(x<=1||x>=51||x==null||x==undefined||x==""){x=currentSize}
+    if (x <= 1 || x >= 51 || x == null || x == undefined || x == "") { x = currentSize }
     currentSize = x
     level.size = x
-    gridContainer.innerHTML=""
-    gridContainer.style.height= 50 + "vw"
+    gridContainer.innerHTML = ""
+    gridContainer.style.height = 50 + "vw"
     for (let i = 0; i < x; i++) {
         for (let j = 0; j < x; j++) {
             let div = document.createElement("div");
             div.classList.add("grid", "untagged")
-            div.style.top = i * 50/x + "vw";
-            div.style.left = j * 50/x + "vw";
-            div.style.width = 50/x + "vw"
-            div.style.height = 50/x + "vw"
+            div.style.top = i * 50 / x + "vw";
+            div.style.left = j * 50 / x + "vw";
+            div.style.width = 50 / x + "vw"
+            div.style.height = 50 / x + "vw"
             div.setAttribute("id", `${j}:${i}`);
-            div.addEventListener("mouseover", ()=>selectDiv(div));
-            div.addEventListener("mousedown", ()=>selectDiv(div, true))
+            div.addEventListener("mouseover", () => selectDiv(div));
+            div.addEventListener("mousedown", () => selectDiv(div, true))
             gridContainer.appendChild(div);
         }
     }
@@ -45,31 +45,31 @@ function createBoard(x){
 createBoard(10)
 
 
-async function widgetCreate(){
+async function widgetCreate() {
     let widgetCover = document.createElement('div')
     widgetCover.id = "widget-cover"
     document.body.appendChild(widgetCover)
     let widgetBody = document.createElement("div")
     widgetBody.id = "widget-body"
     document.body.appendChild(widgetBody)
-    window.setTimeout(function(){
-        widgetBody.style.height= "40%";
-        widgetBody.style.top="30%"
-        widgetBody.style.width= "40%";
-        widgetBody.style.left="30%"
+    window.setTimeout(function () {
+        widgetBody.style.height = "40%";
+        widgetBody.style.top = "30%"
+        widgetBody.style.width = "40%";
+        widgetBody.style.left = "30%"
     }, 10)
-    
-    
+
+
     fetch('http://localhost:3000/getLevels', {
         method: "GET",
     })
         .then(res => res.json()).then(res => {
             let nickInput = document.createElement("input")
             nickInput.id = "nick-input"
-            nickInput.placeholder="Podaj swój nick"
+            nickInput.placeholder = "Podaj swój nick"
             let nameInput = document.createElement("input")
             nameInput.id = "name-input"
-            nameInput.placeholder="Podaj nazwę poziomu"
+            nameInput.placeholder = "Podaj nazwę poziomu"
 
             let levelSelect = document.createElement('select')
             levelSelect.id = 'level-select'
@@ -80,40 +80,40 @@ async function widgetCreate(){
                 mazeOption.value = maze._id
                 levelSelect.appendChild(mazeOption)
             })
-            
+
             let sendLevel = document.createElement('div')
             sendLevel.id = 'send-level'
             sendLevel.innerText = 'NADPISZ LEVEL'
-            
-            window.setTimeout(function(){
+
+            window.setTimeout(function () {
                 widgetBody.appendChild(nickInput)
                 widgetBody.appendChild(nameInput)
                 widgetBody.appendChild(levelSelect)
                 widgetBody.appendChild(sendLevel)
             }, 510)
-            sendLevel.addEventListener('click', function(){
+            sendLevel.addEventListener('click', function () {
                 level.name = nameInput.value
                 level.author = nickInput.value
-                if(level.name === "" || level.name === undefined || level.name === null){level.name="amogus"}
-                if(level.author === "" || level.author === undefined || level.author === null){level.author="sus"}
-                widgetBody.innerText="Wysyłanie Poziomu..."
+                if (level.name === "" || level.name === undefined || level.name === null) { level.name = "amogus" }
+                if (level.author === "" || level.author === undefined || level.author === null) { level.author = "sus" }
+                widgetBody.innerText = "Wysyłanie Poziomu..."
                 fetch('http://localhost:3000/saveLevel', {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({level:level, id:levelSelect.value})
+                    body: JSON.stringify({ level: level, id: levelSelect.value })
                 })
                     .then(res => res.json()).then(res => {
-                        widgetBody.innerText=""
-                        widgetBody.style.height= "0%";
-                        widgetBody.style.top="50%"
-                        widgetBody.style.width= "0%";
-                        widgetBody.style.left="50%"
+                        widgetBody.innerText = ""
+                        widgetBody.style.height = "0%";
+                        widgetBody.style.top = "50%"
+                        widgetBody.style.width = "0%";
+                        widgetBody.style.left = "50%"
                         Array.from(widgetBody.children).forEach(child => {
                             child.style.display = "none"
                         })
-                        window.setTimeout(function(){
+                        window.setTimeout(function () {
                             document.body.removeChild(widgetCover)
                             document.body.removeChild(widgetBody)
                         }, 500)
@@ -126,15 +126,15 @@ async function widgetCreate(){
 
 
 
-    widgetCover.addEventListener("click", function(){
-        widgetBody.style.height= "0%";
-        widgetBody.style.top="50%"
-        widgetBody.style.width= "0%";
-        widgetBody.style.left="50%"
+    widgetCover.addEventListener("click", function () {
+        widgetBody.style.height = "0%";
+        widgetBody.style.top = "50%"
+        widgetBody.style.width = "0%";
+        widgetBody.style.left = "50%"
         Array.from(widgetBody.children).forEach(child => {
             child.style.display = "none"
         })
-        window.setTimeout(function(){
+        window.setTimeout(function () {
             document.body.removeChild(widgetCover)
             document.body.removeChild(widgetBody)
         }, 500)
@@ -142,20 +142,20 @@ async function widgetCreate(){
 }
 
 
-function selectDiv (div, click=false) {
-    if(mouseDown || click){
+function selectDiv(div, click = false) {
+    if (mouseDown || click) {
 
         if (currentObjectType !== "") {
 
             let currentObjectColor = "black"
 
-            if(currentObjectType=="START"){currentObjectColor="green"}
+            if (currentObjectType == "START") { currentObjectColor = "green" }
 
-            else if(currentObjectType=="META"){currentObjectColor="red"}
+            else if (currentObjectType == "META") { currentObjectColor = "red" }
 
-            else if(currentObjectType=="PATH"){currentObjectColor="none"}
+            else if (currentObjectType == "PATH") { currentObjectColor = "none" }
 
-            else{currentObjectColor="black"}
+            else { currentObjectColor = "black" }
 
 
             if (currentObjectType !== "DELETE") {
@@ -164,14 +164,14 @@ function selectDiv (div, click=false) {
 
                 let prev = level.objects.findIndex(object => object.id === newObject.id);
 
-                if(currentObjectType === "START" && level.start!==false){console.log("start już jest")}
-                else if(currentObjectType === "META" && level.end!==false){console.log("meta już jest")}
+                if (currentObjectType === "START" && level.start !== false) { console.log("start już jest") }
+                else if (currentObjectType === "META" && level.end !== false) { console.log("meta już jest") }
 
-                else{
+                else {
                     if (prev !== -1) {
                         console.log("już jest");
-                        if(level.objects[prev].type === "START"){level.start = false}
-                        if(level.objects[prev].type === "META"){level.end = false}
+                        if (level.objects[prev].type === "START") { level.start = false }
+                        if (level.objects[prev].type === "META") { level.end = false }
                         level.objects[prev] = newObject;
 
                     } else {
@@ -180,8 +180,8 @@ function selectDiv (div, click=false) {
                     }
 
                     div.style.background = currentObjectColor;
-                    if(currentObjectType === "START"){level.start=newObject}
-                    if(currentObjectType === "META"){level.end=newObject}
+                    if (currentObjectType === "START") { level.start = newObject }
+                    if (currentObjectType === "META") { level.end = newObject }
 
                     jsonArea.value = JSON.stringify(level.objects, null, 4);
                     console.log(level);
@@ -192,8 +192,8 @@ function selectDiv (div, click=false) {
                 if (prev !== -1) {
                     let deletedObject = level.objects.splice(prev, 1);
                     console.log(deletedObject)
-                    if(deletedObject[0].type === "START"){level.start = false}
-                    if(deletedObject[0].type === "META"){level.end = false}
+                    if (deletedObject[0].type === "START") { level.start = false }
+                    if (deletedObject[0].type === "META") { level.end = false }
                     jsonArea.value = JSON.stringify(level.objects, null, 4);
                     div.style.background = currentObjectColor;
                     div.classList.add("untagged")
@@ -207,7 +207,7 @@ function selectDiv (div, click=false) {
 
 
 Array.from(document.getElementById("editor-buttons").children).forEach(element => {
-    element.addEventListener("click", function(){
+    element.addEventListener("click", function () {
         currentObjectType = element.id.split("-")[0].toUpperCase()
         let prev = document.querySelector(".selected-button");
         // console.log
@@ -219,46 +219,46 @@ Array.from(document.getElementById("editor-buttons").children).forEach(element =
 });
 
 
-document.getElementById("save-button").addEventListener("click", function(){
-    if(level.start !== false && level.end !== false){
+document.getElementById("save-button").addEventListener("click", function () {
+    if (level.start !== false && level.end !== false) {
         console.log("tworzenie poziomu")
         widgetCreate()
 
         level.walls = []
 
         level.objects.forEach(object => {
-            if(level.objects.findIndex(tempObject => (tempObject.x==object.x+1 && tempObject.z==object.z)) == -1){
+            if (level.objects.findIndex(tempObject => (tempObject.x == object.x + 1 && tempObject.z == object.z)) == -1) {
                 level.walls.push(
                     {
-                        x:object.x+1,
-                        z:object.z
+                        x: object.x + 1,
+                        z: object.z
                     }
                 )
             }
 
-            if(level.objects.findIndex(tempObject => (tempObject.x==object.x-1 && tempObject.z==object.z)) == -1){
+            if (level.objects.findIndex(tempObject => (tempObject.x == object.x - 1 && tempObject.z == object.z)) == -1) {
                 level.walls.push(
                     {
-                        x:object.x-1,
-                        z:object.z
+                        x: object.x - 1,
+                        z: object.z
                     }
                 )
             }
 
-            if(level.objects.findIndex(tempObject => (tempObject.x==object.x && tempObject.z==object.z+1)) == -1){
+            if (level.objects.findIndex(tempObject => (tempObject.x == object.x && tempObject.z == object.z + 1)) == -1) {
                 level.walls.push(
                     {
-                        x:object.x,
-                        z:object.z+1
+                        x: object.x,
+                        z: object.z + 1
                     }
                 )
             }
 
-            if(level.objects.findIndex(tempObject => (tempObject.x==object.x && tempObject.z==object.z-1)) == -1){
+            if (level.objects.findIndex(tempObject => (tempObject.x == object.x && tempObject.z == object.z - 1)) == -1) {
                 level.walls.push(
                     {
-                        x:object.x,
-                        z:object.z-1
+                        x: object.x,
+                        z: object.z - 1
                     }
                 )
             }

@@ -228,7 +228,7 @@ app.post('/saveLevel', (req, res) => {
     });
 });
 app.post('/loadLevel', (req, res) => {
-    
+
     let room = rooms.find(room => room.players.find(player => player.id === req.sessionID));
     if (room) {
         console.log(room.theme)
@@ -271,13 +271,13 @@ app.get('/endPrintData', (req, res) => {
     let room = rooms.find(room => room.players.find(player => player.id === req.sessionID));
     if (room) {
         let player = room.players.find(player => player.id === req.sessionID);
-        if(player.role == "player"){
+        if (player.role == "player") {
             room.playerfinished = true
         }
-        else if(player.role == "spectator"){
+        else if (player.role == "spectator") {
             room.spectatorfinished = true
         }
-        if(room.playerfinished && room.spectatorfinished){
+        if (room.playerfinished && room.spectatorfinished) {
             rooms.splice(rooms.findIndex(el => el == room), 1)
         }
         res.end(JSON.stringify({ room: room }))
