@@ -1,0 +1,6 @@
+img{
+    transition: filter 2s ease-in;
+}
+img:hover{
+    filter: invert(100%);
+}
