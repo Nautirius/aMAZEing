@@ -113,6 +113,7 @@ wss.on('connection', function connection(ws) {
                     });
                 case "end":
                     room.time = Date.now() - room.timeStart
+                    room.win = jsMsg.win
                     wss.clients.forEach(function each(client) {
                         if (client.readyState === WebSocket.OPEN && room.websockets.includes(client.id)) {
                             // room.time = Date.now() - room.timeStart

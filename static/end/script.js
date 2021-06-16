@@ -7,7 +7,13 @@ fetch('http://localhost:3000/endPrintData', {
                 app.innerText = "ni mo"
             }
             else{
-                console.log(res.room.time)
+                console.log(res.room)
+
+                if(res.room.win){
+
+                }else{
+
+                }
             }
         })
         .catch(err => { console.log(err) })
