@@ -31,7 +31,28 @@
 </head>
 
 <body>
-    waiting room
+    Oczekiwanie na drugiego gracza
+    <div id="loading"></div>
+    <style>
+        body{
+            margin: 0;
+            background: url('./Bub.jpg');
+            color: white;
+        }
+        #loading{
+            margin: 0 auto;
+            margin-top: 30vh;
+            height: 40vh;
+            width: 40vh;
+            background: url('./Bob.png');
+            background-size: cover;
+            animation: loading 2.5s linear infinite;
+        }
+        @keyframes loading {
+            from {transform: rotateY(0);}
+            to {transform: rotateY(360deg);}
+        }
+    </style>
 </body>
 
 </html>

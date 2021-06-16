@@ -13,6 +13,7 @@ body{
 }
 
 #side-menu{
+    cursor: default;
     font-family: Arial;
     position: fixed;
     height: 100%;
@@ -27,6 +28,7 @@ body{
     /* opacity: 0.5; */
 }
 #side-menu *:hover{
+    cursor: pointer;
     background-color: white;
     filter: invert(100%);
 }

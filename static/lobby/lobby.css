@@ -19,6 +19,10 @@ justify-content:space-evenly;
     background:black;
     font-size: 30px;
 }
+
+#button-cont div:hover{
+    cursor: pointer;
+}
 .chosen{
     background: blue;
 }
